@@ -97,9 +97,9 @@ EndpointIndependentMapping = "Endpoint Independent Mapping"
 AddressDependentMapping = "Address Dependent Mapping"
 AddressAndPortDependentMapping = "Address and Port Dependent Mapping"
 
-EndpointIndependentFiltering = "Endpoint-Independent Filtering"
-AddressDependentFiltering = "Address-Dependent Filtering"
-AddressAndPortDependentFiltering = "Address and Port-Dependent Filtering"
+EndpointIndependentFiltering = "Endpoint Independent Filtering"
+AddressDependentFiltering = "Address Dependent Filtering"
+AddressAndPortDependentFiltering = "Address and Port Dependent Filtering"
 
 class DiscoveryType(enum.Enum):
     classic = "classic"
@@ -404,8 +404,6 @@ def get_nat_type_filter(s, source_ip, source_port, stun_host=None, stun_port=347
         changeRequest = ''.join([ChangeRequest, '0004', "00000006"])
         ret = stun_test(s, stun_host, port, source_ip, source_port, changeRequest)
         resp = ret['Resp']
-        if resp:
-            return ChangedAddressError, ret
         log.debug('result: %s', dumps(ret, indent=4))
         if ret['Resp']:
             log.info(colored(f'# [Step2-ret] got response', 'cyan'))
@@ -427,7 +425,7 @@ def get_nat_type_filter(s, source_ip, source_port, stun_host=None, stun_port=347
 
 def get_ip_info(source_ip="0.0.0.0", source_port=54320, stun_host=None,
                 stun_port=3478, typ=DiscoveryType.classic):
-    socket.setdefaulttimeout(1)
+    socket.setdefaulttimeout(5)
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((source_ip, source_port))
