@@ -86,7 +86,7 @@ InvaildParamter = "Invaild Paramter"
 Blocked = "Blocked"
 OpenInternet = "Open Internet"
 SymmetricUDPFirewall = "Symmetric UDP Firewall"
-ChangedAddressError = "Meet an error, when do Test1 on Changed IP and Port"
+ChangedAddressError = "Meet an error, when do Test2 on Changed IP and Port"
 
 FullCone = "Full Cone"
 RestricNAT = "Restricted Cone"
@@ -358,10 +358,10 @@ def get_nat_type_mapping(s, source_ip, source_port, stun_host=None, stun_port=34
             exIP3 = ret['ExternalIP']
             exPort3 = ret['ExternalPort']
             if exIP2 == exIP3 and exPort2 == exPort3:
-                log.info(colored(f'# [Step2-ret] exIP2:exPort2({exIP2}:{exPort2}) == exIP3:exPort3({exIP3}:{exPort3})', 'cyan'))
+                log.info(colored(f'# [Step3-ret] exIP2:exPort2({exIP2}:{exPort2}) == exIP3:exPort3({exIP3}:{exPort3})', 'cyan'))
                 typ = AddressDependentMapping
             else:
-                log.info(colored(f'# [Step2-ret] exIP2:exPort2({exIP2}:{exPort2}) != exIP3:exPort3({exIP3}:{exPort3})', 'cyan'))
+                log.info(colored(f'# [Step3-ret] exIP2:exPort2({exIP2}:{exPort2}) != exIP3:exPort3({exIP3}:{exPort3})', 'cyan'))
                 typ = AddressAndPortDependentMapping
 
     return typ, ret
@@ -400,7 +400,7 @@ def get_nat_type_filter(s, source_ip, source_port, stun_host=None, stun_port=347
             typ = SymmetricUDPFirewall
     else:
         log.info(colored(f'# [Step1-ret] exIP:exPort({exIP}:{exPort}) != source_ip:source_port({source_ip}:{source_port})', 'cyan'))
-        log.info(colored(f'# [Step2]Test II: connect stun server A({changedIP}) and Port A({stun_port}) with response from server B and Port B', 'green'))
+        log.info(colored(f'# [Step2]Test II: connect stun server A({stun_host}) and Port A({stun_port}) with response from server B and Port B', 'green'))
         changeRequest = ''.join([ChangeRequest, '0004', "00000006"])
         ret = stun_test(s, stun_host, port, source_ip, source_port, changeRequest)
         resp = ret['Resp']
@@ -410,7 +410,7 @@ def get_nat_type_filter(s, source_ip, source_port, stun_host=None, stun_port=347
             typ = EndpointIndependentFiltering
         else:
             log.info(colored(f'# [Step2-ret] no response', 'cyan'))
-            log.info(colored(f'# [Step3]Test III: connect stun server A({changedIP}) and Port A({stun_port}) with response from server A and Port B', 'green'))
+            log.info(colored(f'# [Step3]Test III: connect stun server A({stun_host}) and Port A({stun_port}) with response from server A and Port B', 'green'))
             changeRequest = ''.join([ChangeRequest, '0004', "00000004"])
             ret = stun_test(s, stun_host, port, source_ip, source_port, changeRequest)
             resp = ret['Resp']
