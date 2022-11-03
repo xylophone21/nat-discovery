@@ -12,13 +12,13 @@ __version__ = '0.2.0'
 
 log = logging.getLogger('nat.discovery')
 
+# Hosts updated from https://gist.github.com/mondain/b0ec1cf5f60ae726202e
 STUN_SERVERS = (
-    'stun.ekiga.net',
-    'stun.ideasip.com',
-    'stun.voiparound.com',
-    'stun.voipbuster.com',
+    'stun.sipgate.net',
+    'stun.stunprotocol.org',
     'stun.voipstunt.com',
-    'stun.voxgratia.org'
+    'stun.rynga.com',
+    'stun.easyvoip.com'
 )
 
 stun_servers_list = STUN_SERVERS
